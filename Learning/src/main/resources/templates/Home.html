@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Form Validation</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <form action="signup" method="post" onsubmit="return validateForm()">
+    <label for="name">Name:</label>
+    <input name="name" id="name" type="text">
+    <span id="nameError" class="error"></span><br>
+
+    <label for="age">Age:</label>
+    <input name="age" id="age" type="number">
+    <span id="ageError" class="error"></span><br>
+
+    <button name="sub" type="submit">Submit</button>
+  </form>
+
+  <script>
+    function validateForm() {
+      var nameInput = document.getElementById('name');
+      var ageInput = document.getElementById('age');
+      var nameError = document.getElementById('nameError');
+      var ageError = document.getElementById('ageError');
+
+      // Reset previous errors
+      nameError.innerHTML = '';
+      ageError.innerHTML = '';
+
+      // Name validation
+      var trimmedName = nameInput.value.trim(); // Remove leading and trailing spaces
+      if (trimmedName === '') {
+        nameError.innerHTML = 'Name is required.';
+        return false;
+      }
+
+      // Ensure only letters are entered in the name field
+      var namePattern = /^[A-Za-z]+$/;
+      if (!namePattern.test(trimmedName)) {
+        nameError.innerHTML = 'Only letters are allowed in the name.';
+        return false;
+      }
+
+      // Age validation
+      if (ageInput.value.trim() === '') {
+        ageError.innerHTML = 'Age is required.';
+        return false;
+      }
+
+      var ageValue = parseInt(ageInput.value, 10);
+
+      // Ensure age is within a reasonable range (e.g., 1 to 120)
+      if (isNaN(ageValue) || ageValue < 1 || ageValue > 120) {
+        ageError.innerHTML = 'Please enter a valid human age.';
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</body>
+</html>
